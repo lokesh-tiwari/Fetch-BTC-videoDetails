@@ -34,7 +34,9 @@ const parseRowData = (row, parsedData) => {
               )
               .then(res => res.json())
               .then(json => {
-                parsedData.push(json);
+                if(typeof json.video === 'object'){
+                  parsedData.push(json.video);
+                }
                 // write to a file
 
         })

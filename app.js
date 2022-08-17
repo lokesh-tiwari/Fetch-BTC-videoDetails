@@ -5,16 +5,15 @@ const express = require('express');
 const { parseRowData } = require('./utils');
 const app = express();
 const port = 4000;
-const const_video = 8680;
 
 const writetoCSV = async videoDetails => {
-    const csv = new ObjectsToCsv(videoDetails)
+    const csv = new ObjectsToCsv(videoDetails);
     await csv.toDisk('./videoDetails.csv')
 }
 app.get('/', (req, res) => {
-  let readData = [];
   let parsedData = [];
-  fs.createReadStream('./twoboards.csv')
+  try{
+    fs.createReadStream('./allboards.csv')
     .pipe(parse({ delimiter: ',', from_line: 1 }))
     .on('data', function (row) {
         parseRowData(row, parsedData);
@@ -22,6 +21,9 @@ app.get('/', (req, res) => {
     setTimeout(() => {
         writetoCSV(parsedData);
     }, 10000);
+  } catch(err){
+    console.error(err);
+  }
   res.send('Hello World!');
 });
 app.listen(port, () => {
