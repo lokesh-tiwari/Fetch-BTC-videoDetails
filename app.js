@@ -8,12 +8,12 @@ const port = 4000;
 
 const writetoCSV = async videoDetails => {
     const csv = new ObjectsToCsv(videoDetails);
-    await csv.toDisk('./videoDetails.csv')
+    await csv.toDisk('./Output/videoDetails.csv')
 }
 app.get('/', (req, res) => {
   let parsedData = [];
   try{
-    fs.createReadStream('./allboards.csv')
+    fs.createReadStream('./Input/allboards.csv')
     .pipe(parse({ delimiter: ',', from_line: 1 }))
     .on('data', function (row) {
         parseRowData(row, parsedData);
